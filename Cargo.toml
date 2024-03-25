@@ -1,0 +1,43 @@
+[package]
+name = "my_rust_project"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+actix-rt = "2.9.0"
+actix-web = { version = "4.5.1", features = ["rustls"] }
+diesel = { version = "2.1.5", features = ["postgres", "r2d2", "chrono", "uuid"] }
+uuid = { version = "1.8.0", features = ["serde", "v4"] }
+serde = { version = "1.0.197", features = ["derive"] }
+serde_json = "1.0.114"
+diesel_migrations = { version = "2.1.0", features = ["postgres"] }
+
+#Adding actix-web v4.5.1 to dependencies.
+#Features:
+#+ __compress
+#+ actix-macros
+#+ actix-web-codegen
+#+ compress-brotli
+#+ compress-gzip
+#+ compress-zstd
+#+ cookie
+#+ cookies
+#+ http2
+#+ macros
+#- actix-tls
+#- experimental-io-uring
+#- openssl
+#- rustls
+#- rustls-0_20
+#- rustls-0_21
+#- rustls-0_22
+#- secure-cookies
+#Adding actix-rt v2.9.0 to dependencies.
+#Features:
+#+ actix-macros
+#+ macros
+#- io-uring
+#- tokio-uring
+#Updating crates.io index
