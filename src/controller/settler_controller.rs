@@ -32,3 +32,28 @@ async fn create_proposal(
         },
     }
 }
+//
+// use actix_web::{get, HttpResponse, Responder, web};
+// use diesel::PgConnection;
+// use diesel::prelude::*; // Import for database query operations
+// use diesel::r2d2::{self, ConnectionManager};
+//
+// use crate::model::model::Proposal;
+// use crate::repository::proposal_repository;
+//
+// type DbPool = r2d2::Pool<ConnectionManager<PgConnection>>;
+//
+// #[get("/proposals/{id}")]
+// async fn get_proposal(pool: web::Data<DbPool>, path: web::Path<(u32,)>) -> impl Responder {
+//     let id = path.into_inner().0;
+//     let mut conn = pool.get().expect("Failed to get DB connection from pool");
+//
+//     match proposal_repository::_get_proposal_by_id(&mut conn, id) {
+//         Ok(proposal) => HttpResponse::Ok().json(proposal.to_response()),
+//         Err(diesel::NotFound) => HttpResponse::NotFound().body(format!("Proposal with ID {} not found", id)),
+//         Err(e) => {
+//             println!("Error retrieving proposal: {}", e);
+//             HttpResponse::InternalServerError().finish()
+//         }
+//     }
+// }

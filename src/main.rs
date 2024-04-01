@@ -3,7 +3,7 @@ use actix_web::{App, HttpServer, Responder, web};
 use diesel::prelude::*;
 use diesel::r2d2::{self, ConnectionManager};
 use controller::settler_controller::{create_proposal, get_proposal};
-use diesel_migrations::{embed_migrations};
+use diesel_migrations::{embed_migrations, MigrationHarness, EmbeddedMigrations};
 
 
 mod controller;
@@ -31,6 +31,8 @@ async fn start_server(db_pool: DbPool) -> std::io::Result<()> {
     let server_address =
         env::var("SERVER_ADDRESS").unwrap_or_else(|_| "127.0.0.1:8080".to_string());
 
+
+
     HttpServer::new(move || {
         App::new()
             .app_data(web::Data::new(db_pool.clone()))
@@ -41,7 +43,14 @@ async fn start_server(db_pool: DbPool) -> std::io::Result<()> {
     .await
 }
 
-embed_migrations!();
+pub const MIGRATIONS: EmbeddedMigrations = embed_migrations!();
+
+fn run_pending_migrations(pool: DbPool) {
+    let mut conn = pool.get().expect("Failed to get DB connection from pool");
+    conn.run_pending_migrations(MIGRATIONS).expect("Failed to run database migrations");
+    // pool.get().clone().expect("Failed to get DB connection from pool")
+    //     .run_pending_migrations(MIGRATIONS).expect("TODO: panic message");
+}
 
 fn create_db_pool() -> DbPool {
     let database_url = env::var("DATABASE_URL")
@@ -55,5 +64,6 @@ fn create_db_pool() -> DbPool {
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
     let pool = create_db_pool();
-    start_server(pool).await
+    run_pending_migrations(pool.clone());
+    start_server(pool.clone()).await
 }
