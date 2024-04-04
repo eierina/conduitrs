@@ -22,7 +22,7 @@ async fn get_proposal(
         error_to_response("Failed to get DB connection from pool", &e.to_string())
     })?;
 
-    proposal_repository::_find_proposal_by_id(&mut conn, id)
+    proposal_repository::find_proposal_by_id(&mut conn, id)
         .map(|proposal| HttpResponse::Ok().json(proposal.to_response()))
         .map_err(|e| {
             error_to_response("Internal Server Error", &format!("An error occurred: {}", e))
@@ -39,7 +39,7 @@ async fn create_proposal(
     })?;
 
     let proposal = proposal_json.into_inner().to_entity();
-    proposal_repository::_create_proposal(&mut conn, &proposal)
+    proposal_repository::create_proposal(&mut conn, &proposal)
         .map(|proposal| HttpResponse::Created().json(proposal.to_response()))
         .map_err(|e| {
             error_to_response("Internal Server Error", &format!("An error occurred: {}", e))
