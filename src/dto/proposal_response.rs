@@ -6,11 +6,8 @@ use uuid::Uuid;
 pub struct ProposalResponse {
     #[serde(rename = "proposalId")]
     pub proposal_id: Uuid,
-
     pub participants: Vec<Uuid>,
-
     #[serde(rename = "payloadHint")]
     pub payload_hint: String,
-
     pub info: Value,
 }

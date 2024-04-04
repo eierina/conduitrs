@@ -6,9 +6,7 @@ use uuid::Uuid;
 pub struct AgreementRequest {
     #[serde(rename = "agreementId")]
     pub agreement_id: Uuid,
-
     #[serde(rename = "payloadHint")]
     pub payload_hint: String,
-
     pub info: Value,
 }

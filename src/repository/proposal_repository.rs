@@ -3,21 +3,15 @@ use diesel::prelude::*;
 use uuid::Uuid;
 
 use crate::model::model::Proposal;
-use crate::schema::schema::proposals;
-
-// pub fn _create_proposal(conn: &mut PgConnection, new_proposal: &Proposal) -> QueryResult<Proposal> {
-//     diesel::insert_into(proposals::table)
-//         .values(new_proposal)
-//         .get_result(conn)
-// }
+use crate::schema::schema::proposals::dsl::*;
 
 pub fn _create_proposal(conn: &mut PgConnection, new_proposal: &Proposal) -> Result<Proposal, Box<dyn Error>> {
-    diesel::insert_into(proposals::table)
+    diesel::insert_into(proposals)
         .values(new_proposal)
         .get_result(conn)
-        .map_err(|e| e.into()) // Converts the Diesel error into a Box<dyn Error>
+        .map_err(|e| e.into())
 }
 
-pub fn _find_proposal_by_id(conn: &mut PgConnection, proposal_id: Uuid) -> QueryResult<Proposal> {
-    proposals::table.find(proposal_id).first(conn)
+pub fn _find_proposal_by_id(conn: &mut PgConnection, proposal_id_param: Uuid) -> Result<Proposal, Box<dyn Error>> {
+    proposals.find(proposal_id_param).first(conn).map_err(|e| e.into())
 }
