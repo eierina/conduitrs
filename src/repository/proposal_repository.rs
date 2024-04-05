@@ -1,17 +1,17 @@
-use std::error::Error;
 use diesel::prelude::*;
 use uuid::Uuid;
 
 use crate::model::model::Proposal;
-use crate::schema::schema::proposals::dsl::*;
+use crate::schema::schema::proposals::dsl::proposals;
 
-pub fn create_proposal(conn: &mut PgConnection, new_proposal: &Proposal) -> Result<Proposal, Box<dyn Error>> {
+/// Inserts a new proposal into the database.
+pub fn insert_proposal(conn: &mut PgConnection, new_proposal: &Proposal) -> Result<Proposal, diesel::result::Error> {
     diesel::insert_into(proposals)
         .values(new_proposal)
         .get_result(conn)
-        .map_err(|e| e.into())
 }
 
-pub fn find_proposal_by_id(conn: &mut PgConnection, proposal_id_param: Uuid) -> Result<Proposal, Box<dyn Error>> {
-    proposals.find(proposal_id_param).first(conn).map_err(|e| e.into())
+/// Retrieves a proposal by its ID.
+pub fn find_proposal_by_id(conn: &mut PgConnection, id: Uuid) -> Result<Proposal, diesel::result::Error> {
+    proposals.find(id).first(conn)
 }

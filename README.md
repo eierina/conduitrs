@@ -1,7 +1,9 @@
+Just a PoC work in progress.
 
+[API Test Collection](api_test.postman_collection.json)
 
-```shell
 curl -X 'POST' \
+```shell
   'http://localhost:8080/proposals' \
   -H 'accept: */*' \
   -H 'Content-Type: application/json' \
@@ -13,7 +15,7 @@ curl -X 'POST' \
     "6bfaa980-2340-4c79-b902-2b5c6f32a81c"
   ],
   "payloadHint": "bond-issuance",
-  "info": {
+  "payload": {
     "finalOffering": {
       "asset": "b019e6b6-e477-4766-b39d-ed04c4c7d916",
       "network": "OilTrading",
@@ -45,6 +47,6 @@ curl -X 'POST' \
   "id": "4fa3e13d-3e6c-4226-a8ac-14161efb28a8",
   "maker_id": "7ae556d5-307b-426f-a815-c4377067a51e",
   "payload_hint": "bond-issuance",
-  "info": "hey there!"
+  "payload": "hey there!"
   }'
 ```

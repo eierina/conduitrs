@@ -9,5 +9,5 @@ pub struct ProposalRequest {
     pub participants: Vec<Uuid>,
     #[serde(rename = "payloadHint")]
     pub payload_hint: String,
-    pub info: Value,
+    pub payload: Value,
 }

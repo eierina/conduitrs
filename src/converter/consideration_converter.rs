@@ -13,7 +13,7 @@ impl ConsiderationRequest {
             proposal_id,
             taker_id,
             payload_hint: self.payload_hint.clone(),
-            info: self.info.to_string(),
+            info: self.payload.to_string(),
         }
     }
 }
@@ -23,7 +23,7 @@ impl Consideration {
         ConsiderationResponse {
             consideration_id: self.id,
             payload_hint: self.payload_hint.clone(),
-            info: serde_json::from_str(&self.info).unwrap(),
+            payload: serde_json::from_str(&self.info).unwrap(),
         }
     }
 }

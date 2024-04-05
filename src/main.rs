@@ -2,10 +2,10 @@ use std::env;
 use actix_web::{App, HttpServer, Responder, web};
 use diesel::prelude::*;
 use diesel::r2d2::{self, ConnectionManager};
-use controller::settler_controller::{create_proposal, get_proposal};
+use controller::rest_controller::{create_proposal, get_proposal};
 use diesel_migrations::{embed_migrations, MigrationHarness, EmbeddedMigrations};
 use env_logger::Env;
-use crate::controller::settler_controller::{create_consideration, fallback_route, get_considerations_by_proposal_id};
+use crate::controller::rest_controller::{create_consideration, fallback_route, get_agreements_by_proposal_id, get_considerations_by_proposal_id};
 
 mod controller;
 mod converter;
@@ -24,9 +24,10 @@ async fn greet() -> impl Responder {
 fn configure_app(app: &mut web::ServiceConfig) {
     app.route("/", web::get().to(greet))
         .service(create_proposal)
-        .service(get_proposal)
         .service(create_consideration)
+        .service(get_proposal)
         .service(get_considerations_by_proposal_id)
+        .service(get_agreements_by_proposal_id)
         .default_service(
            web::route().to(fallback_route) // Catch all other requests
         );

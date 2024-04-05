@@ -5,10 +5,10 @@ use std::fmt;
 
 #[derive(Serialize, Debug)]
 pub struct ErrorResponse {
-    //timestamp: String,
-    //status: u16,
+    //pub timestamp: String,
     pub error: String,
     pub message: String,
+    status: u16,
     //path: String,
 }
 
@@ -17,7 +17,14 @@ impl ErrorResponse {
         ErrorResponse {
             error: error.to_owned(),
             message: message.to_owned(),
+            status: StatusCode::INTERNAL_SERVER_ERROR.as_u16(), // Default status code
         }
+    }
+
+    // Change to modify the status inside the ErrorResponse and return `Self`
+    pub fn with_status(mut self, status: StatusCode) -> Self {
+        self.status = status.as_u16();
+        self
     }
 }
 
@@ -29,13 +36,12 @@ impl fmt::Display for ErrorResponse {
 
 impl ResponseError for ErrorResponse {
     fn status_code(&self) -> StatusCode {
-        StatusCode::INTERNAL_SERVER_ERROR
+        // Convert u16 back to StatusCode
+        StatusCode::from_u16(self.status).unwrap_or(StatusCode::INTERNAL_SERVER_ERROR)
     }
 
     fn error_response(&self) -> HttpResponse {
-        HttpResponse::InternalServerError().json(ErrorResponse {
-            error: self.error.clone(),
-            message: self.message.clone(),
-        })
+        // Use the status_code() method to get the StatusCode for building the HttpResponse
+        HttpResponse::build(self.status_code()).json(self)
     }
 }

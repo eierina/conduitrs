@@ -4,7 +4,7 @@ use uuid::Uuid;
 
 use crate::schema::schema::{agreements, considerations, proposals};
 
-#[derive(Queryable, Identifiable, Insertable)]
+#[derive(Queryable, Selectable, Identifiable, Insertable, Debug, PartialEq)]
 #[diesel(table_name = proposals)]
 pub struct Proposal {
     pub id: Uuid,
@@ -14,7 +14,7 @@ pub struct Proposal {
     pub info: String,
 }
 
-#[derive(Queryable, Identifiable, Associations, Insertable)]
+#[derive(Queryable, Selectable, Identifiable, Associations, Insertable, Debug, PartialEq)]
 #[diesel(belongs_to(Proposal))]
 #[diesel(table_name = considerations)]
 pub struct Consideration {
@@ -25,7 +25,7 @@ pub struct Consideration {
     pub info: String,
 }
 
-#[derive(Queryable, Identifiable, Insertable, Associations)]
+#[derive(Queryable, Selectable, Identifiable, Associations, Insertable, Debug, PartialEq)]
 #[diesel(belongs_to(Consideration))]
 #[diesel(table_name = agreements)]
 pub struct Agreement {

@@ -11,7 +11,7 @@ impl ProposalRequest {
             maker_id: self.participants[0],
             participants: self.participants.iter().skip(1).cloned().collect(),
             payload_hint: self.payload_hint.clone(),
-            info: self.info.to_string(),
+            info: self.payload.to_string(),
         }
     }
 }
@@ -24,7 +24,7 @@ impl Proposal {
                 .chain(self.participants.iter().cloned())
                 .collect(),
             payload_hint: self.payload_hint.clone(),
-            info: serde_json::from_str(&self.info).unwrap(),
+            payload: serde_json::from_str(&self.info).unwrap(),
         }
     }
 }

@@ -8,5 +8,5 @@ pub struct AgreementRequest {
     pub agreement_id: Uuid,
     #[serde(rename = "payloadHint")]
     pub payload_hint: String,
-    pub info: Value,
+    pub payload: Value,
 }
